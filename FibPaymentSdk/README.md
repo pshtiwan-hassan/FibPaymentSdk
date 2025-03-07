@@ -1,4 +1,5 @@
-﻿# FibPaymentSDK 🚀
+# FibPaymentSDK 🚀
+This is a .NET 9 SDK for Fib Payment API.
 
 **FibPaymentSDK** is a .NET 9 SDK that simplifies integrating with Fib Payment API.  
 It handles authentication, payment creation, status checks, cancellations, and refunds.
