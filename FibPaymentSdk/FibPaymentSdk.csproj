@@ -6,7 +6,7 @@
 		<PackageId>FibPaymentSDK</PackageId>
 		<Version>1.0.0</Version>
 		<Authors>Pshitiwan Hassan</Authors>
-		<Company>SevenNet</Company>
+		<Company>FIB</Company>
 		<Description>FibPaymentSDK for .NET 9</Description>
 		<PackageTags>fib, payment, sdk, .net9</PackageTags>
 		<RepositoryUrl>https://github.com/pshtiwan-hassan</RepositoryUrl>
