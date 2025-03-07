@@ -4,13 +4,9 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using FibPaymentSdk.FIB.Dtos;
-
-#if NET48
-using Newtonsoft.Json;
-#else
+ 
 using System.Text.Json;
-using System.Text.Json.Serialization;
-#endif
+
 
 namespace FibPaymentSdk.FIB
 {
@@ -51,11 +47,9 @@ namespace FibPaymentSdk.FIB
 
             var json = await response.Content.ReadAsStringAsync();
 
-#if NET48
-            var tokenResponse = JsonConvert.DeserializeObject<FibAuthorizationResponse>(json);
-#else
+ 
             var tokenResponse = JsonSerializer.Deserialize<FibAuthorizationResponse>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-#endif
+ 
 
             _cachedToken = tokenResponse?.AccessToken;
             if (tokenResponse?.ExpiresIn > 0)
@@ -76,11 +70,9 @@ namespace FibPaymentSdk.FIB
 
                 var request = new HttpRequestMessage(method, url)
                 {
-#if NET48
-                    Content = data is null ? null : new StringContent(JsonConvert.SerializeObject(data), System.Text.Encoding.UTF8, "application/json")
-#else
+ 
                     Content = data is null ? null : new StringContent(JsonSerializer.Serialize(data), System.Text.Encoding.UTF8, "application/json")
-#endif
+ 
                 };
 
                 request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken.AccessToken);
@@ -104,21 +96,17 @@ namespace FibPaymentSdk.FIB
         public async Task<FibCreatePaymentResponse?> CreatePaymentAsync(FibCreatePaymentRequest request)
         {
             var response = await MakeAuthorizedRequestAsync(HttpMethod.Post, $"{_baseUrl}/protected/v1/payments", request);
-#if NET48
-            return JsonConvert.DeserializeObject<FibCreatePaymentResponse>(response);
-#else
+ 
             return JsonSerializer.Deserialize<FibCreatePaymentResponse>(response, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-#endif
+ 
         }
 
         public async Task<FibPaymentStatusResponse?> CheckPaymentStatusAsync(string paymentId)
         {
             var response = await MakeAuthorizedRequestAsync(HttpMethod.Get, $"{_baseUrl}/protected/v1/payments/{paymentId}/status");
-#if NET48
-            return JsonConvert.DeserializeObject<FibPaymentStatusResponse>(response);
-#else
+ 
             return JsonSerializer.Deserialize<FibPaymentStatusResponse>(response, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-#endif
+ 
         }
 
         public async Task CancelPaymentAsync(string? paymentId)

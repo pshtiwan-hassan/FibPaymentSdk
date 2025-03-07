@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<!-- Multi-targeting .NET 4.8, .NET 8, and .NET 9 -->
-		<TargetFrameworks>net48;net8.0;net9.0</TargetFrameworks>
+		<!-- Target only .NET 8 and .NET 9 -->
+		<TargetFrameworks>net8.0;net9.0</TargetFrameworks>
 		<OutputType>Library</OutputType>
 
 		<!-- NuGet Package Metadata -->
@@ -10,8 +10,8 @@
 		<Version>1.0.2</Version>
 		<Authors>Pshitiwan Hassan</Authors>
 		<Company></Company>
-		<Description>FibPaymentSDK supporting .NET 4.8, .NET 8, and .NET 9</Description>
-		<PackageTags>fib, payment, sdk, .net9, .net8, .net48</PackageTags>
+		<Description>FibPaymentSDK supporting .NET 8 and .NET 9</Description>
+		<PackageTags>fib, payment, sdk, .net9, .net8</PackageTags>
 		<RepositoryUrl>https://github.com/pshtiwan-hassan</RepositoryUrl>
 		<PackageProjectUrl>https://github.com/pshtiwan-hassan/FibPaymentSDK</PackageProjectUrl>
 		<RepositoryType>git</RepositoryType>
@@ -20,15 +20,7 @@
 		<IncludeSource>true</IncludeSource>
 		<Nullable>enable</Nullable>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<PackageIcon>logo.png</PackageIcon> 
-	</PropertyGroup>
-
-	<!-- Special Handling for .NET Framework 4.8 -->
-	<PropertyGroup Condition="'$(TargetFramework)' == 'net48'">
-		<LangVersion>8.0</LangVersion>
-		<!-- Force C# 8.0 for .NET 4.8 -->
-		<UseWPF>false</UseWPF>
-		<UseWindowsForms>false</UseWindowsForms>
+		<PackageIcon>logo.png</PackageIcon>
 	</PropertyGroup>
 
 	<!-- Special Handling for .NET 8 and .NET 9 -->
@@ -41,23 +33,16 @@
 		<Content Include="logo.png" />
 	</ItemGroup>
 
-	<!-- Dependencies for .NET 4.8 -->
-	<ItemGroup Condition="'$(TargetFramework)' == 'net48'">
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-	</ItemGroup>
-
 	<!-- Dependencies for .NET 8 and .NET 9 -->
-	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0' OR $(TargetFramework) == 'net9.0'">
+	<ItemGroup>
 		<PackageReference Include="System.Text.Json" Version="9.0.2" />
+		<PackageReference Include="System.Net.Http" Version="4.3.4" />
 	</ItemGroup>
 
 	<!-- Ensure README.md and logo.png are included in the package -->
 	<ItemGroup>
 		<None Include="README.md" Pack="true" PackagePath="" />
 		<None Include="logo.png" Pack="true" PackagePath="" />
-	</ItemGroup>
-	<ItemGroup>
-	  <PackageReference Include="System.Net.Http" Version="4.3.4" />
 	</ItemGroup>
 
 </Project>

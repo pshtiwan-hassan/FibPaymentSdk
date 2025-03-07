@@ -1,12 +1,7 @@
 ﻿
 using System.Threading.Tasks;
 using FibPaymentSdk.FIB.Dtos;
-#if NET48
-using Newtonsoft.Json;
-#else
-using System.Text.Json;
-using System.Text.Json.Serialization;
-#endif
+
 
 namespace FibPaymentSdk.FIB
 {
