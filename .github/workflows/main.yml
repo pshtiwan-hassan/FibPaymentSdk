@@ -30,6 +30,10 @@ jobs:
 
       - name: Build the Project
         run: dotnet build --configuration Release --no-restore
+      
+      - name: Check if README.md exists
+        run: ls -lah FibPaymentSdk/ && cat FibPaymentSdk/README.md
+
 
       - name: Create NuGet Package
         run: dotnet pack --configuration Release --no-build
