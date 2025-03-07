@@ -1,4 +1,4 @@
-namespace FibPaymentSdk.Fib
+﻿namespace FibPaymentSdk.Fib
 {
     public enum FibPaymentStatus
     {
