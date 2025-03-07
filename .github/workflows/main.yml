@@ -3,22 +3,25 @@ name: Publish to NuGet
 on:
   push:
     branches:
-      - main  # Runs on every push to the main branch
-  workflow_dispatch:  # Allows manual triggering from GitHub Actions UI
+      - main
+  workflow_dispatch:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Setup .NET SDK (Multi-Version Support)
+      - name: Setup .NET SDK (Only for .NET 8 & 9)
+        if: runner.os == 'Linux'
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: |
-            4.8
             8.0
             9.0
           source-url: https://api.nuget.org/v3/index.json
@@ -28,10 +31,6 @@ jobs:
       # Debugging step to check directory structure
       - name: Debug Repository Structure
         run: ls -lah
-
-      # Find README.md anywhere in the repository
-      - name: Locate README.md
-        run: find . -name "README.md"
 
       # Ensure README.md exists in the package directory
       - name: Ensure README.md is copied
@@ -48,7 +47,7 @@ jobs:
       - name: Restore Dependencies
         run: dotnet restore
 
-      - name: Build the Project
+      - name: Build the Project (Windows + Linux)
         run: dotnet build --configuration Release --no-restore
 
       - name: Create NuGet Package (Multi-Targeting)
