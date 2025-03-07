@@ -149,12 +149,3 @@ For major changes, please open an issue first to discuss the proposed changes.
 📧 **Email:** pshitiwan.eng@gmail.com  
 💼 **LinkedIn:** [Pshitiwan Hassan](https://www.linkedin.com/in/pshtiwan-ahmed)  
 🐙 **GitHub:** [pshtiwan-hassan](https://github.com/pshtiwan-hassan)  
-
----
-
-### **💡 Next Steps**
-✅ **Commit & Push this README to GitHub**  
-✅ **Ensure Your GitHub Repo is Public**  
-✅ **Share Your Repo Link on LinkedIn & Dev Communities**  
-
-🚀🔥 Let me know if you need any modifications!  
