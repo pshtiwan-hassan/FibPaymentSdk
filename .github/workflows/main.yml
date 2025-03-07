@@ -17,17 +17,36 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      # Setup .NET SDK for Multi-Targeting
-      - name: Setup .NET SDK
+      # Setup .NET SDK (Only for .NET 8 & 9 on Linux)
+      - name: Setup .NET SDK (Linux)
+        if: runner.os == 'Linux'
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: |
-            4.8
             8.0
             9.0
           source-url: https://api.nuget.org/v3/index.json
         env:
           NUGET_AUTH_TOKEN: ${{ secrets.NUGET_API_KEY }}
+
+      # Setup .NET SDK (Including .NET 4.8 on Windows)
+      - name: Setup .NET SDK (Windows)
+        if: runner.os == 'Windows'
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: |
+            4.7.2
+            8.0
+            9.0
+          source-url: https://api.nuget.org/v3/index.json
+        env:
+          NUGET_AUTH_TOKEN: ${{ secrets.NUGET_API_KEY }}
+
+      # Install .NET Framework Developer Pack (Required for .NET 4.8)
+      - name: Install .NET Framework Developer Pack (Windows Only)
+        if: runner.os == 'Windows'
+        run: |
+          choco install netfx-4.8-devpack -y
 
       # Debugging Step - Verify Directory Structure
       - name: Debug Repository Structure
