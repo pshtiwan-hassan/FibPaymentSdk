@@ -3,19 +3,15 @@ name: Publish to NuGet
 on:
   push:
     branches:
-      - main  # Runs when changes are pushed to `main`
+      - main  # Runs when changes are pushed to the `main` branch
   workflow_dispatch:  # Allows manual trigger from GitHub Actions UI
-
-on:
-  push:
-    tags:
-      - 'v*'  # This runs only when you push a version tag (e.g., v1.0.0)
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout repository
+      - name: Checkout Repository
         uses: actions/checkout@v3
 
       - name: Setup .NET
@@ -26,13 +22,13 @@ jobs:
         env:
           NUGET_AUTH_TOKEN: ${{ secrets.NUGET_API_KEY }}
 
-      - name: Restore dependencies
+      - name: Restore Dependencies
         run: dotnet restore
 
-      - name: Build the project
+      - name: Build the Project
         run: dotnet build --configuration Release --no-restore
 
-      - name: Create NuGet package
+      - name: Create NuGet Package
         run: dotnet pack --configuration Release --no-build
 
       - name: Publish to NuGet
