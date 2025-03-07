@@ -147,7 +147,6 @@ For major changes, please open an issue first to discuss the proposed changes.
 ---
 
 ## 🌎 Connect With Me
-📧 **Email:** pshitiwan.hassan@example.com  
 💼 **LinkedIn:** [Pshitiwan Hassan](https://www.linkedin.com/in/pshtiwan-ahmed)  
 🐙 **GitHub:** [pshtiwan-hassan](https://github.com/pshtiwan-hassan)  
 
