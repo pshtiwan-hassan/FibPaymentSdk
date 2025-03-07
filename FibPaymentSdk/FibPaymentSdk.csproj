@@ -14,8 +14,6 @@
 		<IncludeSymbols>true</IncludeSymbols>
 		<IncludeSource>true</IncludeSource>
 		<Nullable>enable</Nullable>
-		<PackageReadmeFile>FibPaymentSdk/README.md</PackageReadmeFile>
-
 	</PropertyGroup> 
 
 
