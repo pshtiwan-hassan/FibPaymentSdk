@@ -3,8 +3,8 @@ name: Publish to NuGet
 on:
   push:
     branches:
-      - main
-  workflow_dispatch:
+      - main  # Runs on every push to the main branch
+  workflow_dispatch:  # Allows manual triggering from GitHub Actions UI
 
 jobs:
   build:
@@ -14,15 +14,18 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Setup .NET
+      - name: Setup .NET SDK (Multi-Version Support)
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '9.0'
+          dotnet-version: |
+            4.8
+            8.0
+            9.0
           source-url: https://api.nuget.org/v3/index.json
         env:
           NUGET_AUTH_TOKEN: ${{ secrets.NUGET_API_KEY }}
 
-      # Debugging step to check the root directory structure
+      # Debugging step to check directory structure
       - name: Debug Repository Structure
         run: ls -lah
 
@@ -30,12 +33,16 @@ jobs:
       - name: Locate README.md
         run: find . -name "README.md"
 
-      # Ensure README.md is inside FibPaymentSdk/
+      # Ensure README.md exists in the package directory
       - name: Ensure README.md is copied
         run: cp README.md FibPaymentSdk/README.md || echo "README.md already in place"
 
-      # Verify README.md exists inside FibPaymentSdk before packaging
-      - name: Verify README.md inside FibPaymentSdk
+      # Ensure `logo.png` is included in the package
+      - name: Ensure logo.png is copied
+        run: cp logo.png FibPaymentSdk/logo.png || echo "logo.png already in place"
+
+      # Verify README.md & logo.png exist before packaging
+      - name: Verify README.md and logo.png
         run: ls -lah FibPaymentSdk/ && cat FibPaymentSdk/README.md || echo "README.md NOT FOUND!"
 
       - name: Restore Dependencies
@@ -44,8 +51,8 @@ jobs:
       - name: Build the Project
         run: dotnet build --configuration Release --no-restore
 
-      - name: Create NuGet Package
-        run: dotnet pack --configuration Release --no-build
+      - name: Create NuGet Package (Multi-Targeting)
+        run: dotnet pack --configuration Release --no-build --output nupkgs
 
       - name: Publish to NuGet
-        run: dotnet nuget push bin/Release/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+        run: dotnet nuget push nupkgs/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
