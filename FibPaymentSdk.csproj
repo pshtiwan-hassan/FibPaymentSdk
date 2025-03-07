@@ -1,37 +1,39 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<TargetFramework>net9.0</TargetFramework>
-		<OutputType>Library</OutputType>
-		<PackageId>FibPaymentSDK</PackageId>
-		<Version>1.0.1</Version>
-		<Authors>Pshitiwan Hassan</Authors>
-		<Company></Company>
-		<Description>FibPaymentSDK for .NET 9</Description>
-		<PackageTags>fib, payment, sdk, .net9</PackageTags>
-		<RepositoryUrl>https://github.com/pshtiwan-hassan</RepositoryUrl>
-		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<IncludeSymbols>true</IncludeSymbols>
-		<IncludeSource>true</IncludeSource>
-		<Nullable>enable</Nullable>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<PackageIcon>logo.png</PackageIcon>
-	</PropertyGroup> 
+  <PropertyGroup>
+    <!-- Multi-target .NET 4.8, .NET 8, and .NET 9 -->
+    <TargetFrameworks>net48;net8.0;net9.0</TargetFrameworks>
+    <OutputType>Library</OutputType>
 
+    <!-- NuGet Package Metadata -->
+    <PackageId>FibPaymentSDK</PackageId>
+    <Version>1.0.2</Version>
+    <Authors>Pshitiwan Hassan</Authors>
+    <Company></Company>
+    <Description>FibPaymentSDK supporting .NET 4.8, .NET 8, and .NET 9</Description>
+    <PackageTags>fib, payment, sdk, .net9, .net8, .net48</PackageTags>
+    <RepositoryUrl>https://github.com/pshtiwan-hassan</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <IncludeSymbols>true</IncludeSymbols>
+    <IncludeSource>true</IncludeSource>
+    <Nullable>enable</Nullable>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>logo.png</PackageIcon>
+  </PropertyGroup>
 
-
-  <ItemGroup>
+  <!-- Dependencies for Different Frameworks -->
+  <ItemGroup Condition="'$(TargetFramework)' == 'net48'">
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
-	<ItemGroup>
-		<None Include="README.md" Pack="true" PackagePath="" />
-	</ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net8.0' OR '$(TargetFramework)' == 'net9.0'">
+    <PackageReference Include="System.Text.Json" Version="8.0.0" />
+  </ItemGroup>
 
-<ItemGroup>
-  <None Include="logo.png" Pack="true" PackagePath="" />
-</ItemGroup>
-
-
+  <!-- Ensure README.md and logo.png are included in the package -->
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="" />
+    <None Include="logo.png" Pack="true" PackagePath="" />
+  </ItemGroup>
 
 </Project>
