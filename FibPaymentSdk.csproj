@@ -15,7 +15,7 @@
 		<IncludeSource>true</IncludeSource>
 		<Nullable>enable</Nullable>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-
+		<PackageIcon>logo.png</PackageIcon>
 	</PropertyGroup> 
 
 
@@ -28,6 +28,9 @@
 		<None Include="README.md" Pack="true" PackagePath="" />
 	</ItemGroup>
 
+<ItemGroup>
+  <None Include="logo.png" Pack="true" PackagePath="" />
+</ItemGroup>
 
 
 
