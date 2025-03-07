@@ -1,8 +1,9 @@
-﻿namespace FibPaymentSdk.Fib;
-
-public enum FibPaymentStatus
+namespace FibPaymentSdk.Fib
 {
-    UNPAID,     
-    DECLINE,    
-    PAID        
+    public enum FibPaymentStatus
+    {
+        UNPAID,     
+        DECLINE,    
+        PAID        
+    }
 }
