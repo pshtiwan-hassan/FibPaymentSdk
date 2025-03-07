@@ -16,11 +16,7 @@
 		<Nullable>enable</Nullable>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 
-	</PropertyGroup>
-
-	<ItemGroup>
-	  <Compile Remove="Program.cs" />
-	</ItemGroup>
+	</PropertyGroup> 
 
 
 
