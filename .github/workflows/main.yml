@@ -3,7 +3,7 @@ name: Publish to NuGet
 on:
   push:
     branches:
-      - main  # Runs when changes are pushed to the `main` branch
+      - main  # Runs when changes are pushed to `main`
   workflow_dispatch:  # Allows manual trigger from GitHub Actions UI
 
 jobs:
@@ -21,6 +21,9 @@ jobs:
           source-url: https://api.nuget.org/v3/index.json
         env:
           NUGET_AUTH_TOKEN: ${{ secrets.NUGET_API_KEY }}
+
+      - name: Ensure README.md exists
+        run: ls -lah && cat README.md  # Debugging step to verify file exists
 
       - name: Restore Dependencies
         run: dotnet restore
