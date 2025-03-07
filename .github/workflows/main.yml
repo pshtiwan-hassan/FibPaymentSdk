@@ -17,7 +17,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      # Setup .NET SDK (Only for .NET 8 & 9 on Linux)
+      # 🔹 Setup .NET 8 & 9 on Linux (No .NET 4.8)
       - name: Setup .NET SDK (Linux)
         if: runner.os == 'Linux'
         uses: actions/setup-dotnet@v3
@@ -29,52 +29,51 @@ jobs:
         env:
           NUGET_AUTH_TOKEN: ${{ secrets.NUGET_API_KEY }}
 
-      # Setup .NET SDK (Including .NET 4.8 on Windows)
+      # 🔹 Setup .NET SDK (Only .NET 8 & 9, No .NET 4.8)
       - name: Setup .NET SDK (Windows)
         if: runner.os == 'Windows'
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: |
-            4.7.2
             8.0
             9.0
           source-url: https://api.nuget.org/v3/index.json
         env:
           NUGET_AUTH_TOKEN: ${{ secrets.NUGET_API_KEY }}
 
-      # Install .NET Framework Developer Pack (Required for .NET 4.8)
-      - name: Install .NET Framework Developer Pack (Windows Only)
+      # 🔹 Verify .NET Framework 4.8 Exists on Windows
+      - name: Check .NET Framework Version (Windows)
         if: runner.os == 'Windows'
         run: |
-          choco install netfx-4.8-devpack -y
+          reg query "HKLM\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full" /v Version
 
-      # Debugging Step - Verify Directory Structure
+      # 🔹 Debug Repository Structure
       - name: Debug Repository Structure
         run: ls -lah
 
-      # Ensure README.md & logo.png are included in the package
+      # 🔹 Ensure README.md & logo.png are included in the package
       - name: Copy README.md and logo.png
         run: |
           mkdir -p FibPaymentSdk
           cp README.md FibPaymentSdk/README.md || echo "README.md already exists"
           cp logo.png FibPaymentSdk/logo.png || echo "logo.png already exists"
 
-      # Verify README.md & logo.png before packaging
+      # 🔹 Verify Files Exist Before Packaging
       - name: Verify Files Exist
         run: ls -lah FibPaymentSdk/ && cat FibPaymentSdk/README.md || echo "README.md NOT FOUND!"
 
-      # Restore Dependencies
+      # 🔹 Restore Dependencies
       - name: Restore Dependencies
         run: dotnet restore
 
-      # Build the Project (Windows & Linux)
+      # 🔹 Build the Project (Windows & Linux)
       - name: Build the Project
         run: dotnet build --configuration Release --no-restore
 
-      # Create NuGet Package (Multi-Targeting)
+      # 🔹 Create NuGet Package (Multi-Targeting)
       - name: Create NuGet Package
         run: dotnet pack --configuration Release --no-build --output nupkgs
 
-      # Publish to NuGet
+      # 🔹 Publish to NuGet
       - name: Publish to NuGet
         run: dotnet nuget push nupkgs/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
