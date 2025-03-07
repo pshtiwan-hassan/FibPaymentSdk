@@ -22,12 +22,20 @@ jobs:
         env:
           NUGET_AUTH_TOKEN: ${{ secrets.NUGET_API_KEY }}
 
-      # Debugging step to ensure README.md is present before packaging
-      - name: Verify README.md exists
-        run: |
-          echo "Checking README.md location..."
-          ls -lah FibPaymentSdk/
-          cat FibPaymentSdk/README.md || echo "README.md NOT FOUND!"
+      # Debugging step to check the root directory structure
+      - name: Debug Repository Structure
+        run: ls -lah
+
+      # Debugging step to find README.md in the entire repo
+      - name: Locate README.md
+        run: find . -name "README.md"
+
+      # Copy README.md to the correct location if needed
+      - name: Ensure README.md is in the project folder
+        run: cp README.md FibPaymentSdk/README.md || echo "README.md already in place"
+
+      - name: Verify README.md exists inside FibPaymentSdk
+        run: ls -lah FibPaymentSdk/ && cat FibPaymentSdk/README.md || echo "README.md NOT FOUND!"
 
       - name: Restore Dependencies
         run: dotnet restore
