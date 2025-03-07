@@ -17,9 +17,8 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      # 🔹 Setup .NET 8 & 9 on Linux (No .NET 4.8)
-      - name: Setup .NET SDK (Linux)
-        if: runner.os == 'Linux'
+      # 🔹 Setup .NET SDK for .NET 8 & .NET 9 (No .NET 4.8)
+      - name: Setup .NET SDK
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: |
@@ -28,24 +27,6 @@ jobs:
           source-url: https://api.nuget.org/v3/index.json
         env:
           NUGET_AUTH_TOKEN: ${{ secrets.NUGET_API_KEY }}
-
-      # 🔹 Setup .NET SDK (Only .NET 8 & 9, No .NET 4.8)
-      - name: Setup .NET SDK (Windows)
-        if: runner.os == 'Windows'
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: |
-            8.0
-            9.0
-          source-url: https://api.nuget.org/v3/index.json
-        env:
-          NUGET_AUTH_TOKEN: ${{ secrets.NUGET_API_KEY }}
-
-      # 🔹 Verify .NET Framework 4.8 Exists on Windows
-      - name: Check .NET Framework Version (Windows)
-        if: runner.os == 'Windows'
-        run: |
-          reg query "HKLM\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full" /v Version
 
       # 🔹 Debug Repository Structure
       - name: Debug Repository Structure
@@ -66,7 +47,7 @@ jobs:
       - name: Restore Dependencies
         run: dotnet restore
 
-      # 🔹 Build the Project (Windows & Linux)
+      # 🔹 Build the Project
       - name: Build the Project
         run: dotnet build --configuration Release --no-restore
 
