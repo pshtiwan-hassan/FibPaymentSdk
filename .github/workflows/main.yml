@@ -3,7 +3,7 @@ name: Publish to NuGet
 on:
   push:
     branches:
-      - main  # Runs when changes are pushed to `main`
+      - main  # Runs when changes are pushed to the `main` branch
   workflow_dispatch:  # Allows manual trigger from GitHub Actions UI
 
 jobs:
@@ -22,18 +22,18 @@ jobs:
         env:
           NUGET_AUTH_TOKEN: ${{ secrets.NUGET_API_KEY }}
 
-      - name: Ensure README.md exists
-        run: ls -lah && cat README.md  # Debugging step to verify file exists
+      # Debugging step to ensure README.md is present before packaging
+      - name: Verify README.md exists
+        run: |
+          echo "Checking README.md location..."
+          ls -lah FibPaymentSdk/
+          cat FibPaymentSdk/README.md || echo "README.md NOT FOUND!"
 
       - name: Restore Dependencies
         run: dotnet restore
 
       - name: Build the Project
         run: dotnet build --configuration Release --no-restore
-      
-      - name: Check if README.md exists
-        run: ls -lah FibPaymentSdk/ && cat FibPaymentSdk/README.md
-
 
       - name: Create NuGet Package
         run: dotnet pack --configuration Release --no-build
