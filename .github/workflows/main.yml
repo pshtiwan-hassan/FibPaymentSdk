@@ -3,8 +3,8 @@ name: Publish to NuGet
 on:
   push:
     branches:
-      - main  # Runs when changes are pushed to the `main` branch
-  workflow_dispatch:  # Allows manual trigger from GitHub Actions UI
+      - main
+  workflow_dispatch:
 
 jobs:
   build:
@@ -26,15 +26,16 @@ jobs:
       - name: Debug Repository Structure
         run: ls -lah
 
-      # Debugging step to find README.md in the entire repo
+      # Find README.md anywhere in the repository
       - name: Locate README.md
         run: find . -name "README.md"
 
-      # Copy README.md to the correct location if needed
-      - name: Ensure README.md is in the project folder
+      # Ensure README.md is inside FibPaymentSdk/
+      - name: Ensure README.md is copied
         run: cp README.md FibPaymentSdk/README.md || echo "README.md already in place"
 
-      - name: Verify README.md exists inside FibPaymentSdk
+      # Verify README.md exists inside FibPaymentSdk before packaging
+      - name: Verify README.md inside FibPaymentSdk
         run: ls -lah FibPaymentSdk/ && cat FibPaymentSdk/README.md || echo "README.md NOT FOUND!"
 
       - name: Restore Dependencies
