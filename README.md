@@ -134,17 +134,6 @@ This will check the payment **every 5 seconds** for up to **60 seconds**.
 
 ---
 
-## 📜 License
-This project is licensed under the **MIT License**.
-
----
-
-## 🤝 Contributing
-Pull requests are welcome!  
-For major changes, please open an issue first to discuss the proposed changes.
-
----
-
 ## 🌎 Connect With Me
 📧 **Email:** pshitiwan.eng@gmail.com  
 💼 **LinkedIn:** [Pshitiwan Hassan](https://www.linkedin.com/in/pshtiwan-ahmed)  
